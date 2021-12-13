@@ -1,0 +1,144 @@
+
+{.section item}
+
+  <article id="post-{id}" class="BlogItem {@|item-classes}{.if categories.0} has-categories{.end}{.if tags.0} has-tags{.end}{.if location.addressTitle || location.addressLine1 || location.addressLine2 || location.addressCountry} has-location{.end}{.comments?} has-comments{.end}" data-item-id="{id}" data-disc="{customContent.discussion-type}">
+
+
+    <div class="img-banner">
+      <img src="{assetUrl}" alt="">
+    </div>
+
+    {.passthrough?}
+      <a href="{sourceUrl}" class="BlogItem-title" data-content-field="title" target="_blank" >{title}</a>
+    {.or}
+      <h1 class="BlogItem-title" data-content-field="title">{title}</h1>
+    {.end}
+
+    {body}
+      
+    <div class="Blog-meta BlogItem-meta">
+      {.section categories}<!--
+
+      Categories
+
+      --><span class="Blog-meta-item Blog-meta-item--categories">{.repeated section @}<a href="{collection.fullUrl}?category={@|url-encode}" class="Blog-meta-item-category">{@}</a>{.alternates with}, {.end}</span>{.end}<!--
+
+      Date
+
+      --><time class="Blog-meta-item Blog-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B %d, %Y}</time>
+      <a href="{collection.fullUrl}?author={author.id}" class="Blog-meta-item Blog-meta-item--author">by {author.displayName}</a>
+      {.section location}{.section addressTitle}<!--
+
+      Author
+
+      --><!--
+
+      Location
+
+      --><span class="Blog-meta-item Blog-meta-item--location"><a href="http://maps.google.com?q={addressLine1} {addressLine2} {addressCountry}" target="_blank">{@}</a></span>{.end}{.end}{.section tags}<!--
+
+      Tags
+
+      --><span class="Blog-meta-item Blog-meta-item--tags">{.repeated section @}<a href="{collection.fullUrl}?tag={@|url-encode}" class="Blog-meta-item-tag">{@}</a>{.alternates with}, {.end}</span>{.end}{.comments?}<!--
+
+      Comments
+
+      --><span class="Blog-meta-item Blog-meta-item--comments">{.if websiteSettings.disqusShortname}{@|comment-link}{.or}{.section publicCommentCount}<a href="{fullUrl}#comments-{id}">({@}) Comment{@|pluralize}</a>{.or}<a href="{fullUrl}#comments-{id}">Comment</a>{.end}{.end}</span>{.end}
+    </div>
+
+    <div class="BlogItem-share">{@|apply sqs-share-buttons}</div>
+
+    <section id="comments-{id}" class="BlogItem-comments">
+      {@|comments}
+    </section>
+
+  </article>
+
+{.end}
+    
+
+{.section pagination}
+  <nav class="BlogItem-pagination clear">
+
+    {.section prevItem}
+      <a href="{.if passthrough && sourceUrl}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogItem-pagination-link BlogItem-pagination-link--prev">
+        <svg class="BlogItem-pagination-link-icon" viewBox="0 0 23 48">
+          <g class="svg-icon">
+            <polyline fill="none" stroke-miterlimit="10" points="21.5,1.3 2.6,23.4 21.5,45.7 "/>
+          </g>
+        </svg><!--
+        --><div class="BlogItem-pagination-link-content">
+          <div class="BlogItem-pagination-link-label">Previous</div>
+          <h4 class="BlogItem-pagination-link-title">{title}</h4>
+          <div class="BlogItem-pagination-link-meta">
+            {.section categories}<!--
+
+            Categories
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--categories">{.repeated section @}{@}{.alternates with}, {.end}</span>{.end}<!--
+
+            Author
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--author">{author.displayName}</span><!--
+
+            Date
+
+            --><time class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B %d, %Y}</time>{.section location}{.section addressTitle}<!--
+
+            Location
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--location">{@}</span>{.end}{.end}{.section tags}<!-- 
+
+            Tags 
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--tags">{.repeated section @}{@}{.alternates with}, {.end}</span>{.end}{.comments?}<!--
+
+            Comments
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--comments">{.section publicCommentCount}{@} Comment{@|pluralize}{.end}</span>{.end}
+          </div>
+        </div>
+      </a>
+    {.end}
+
+    {.section nextItem}
+      <a href="{.if passthrough && sourceUrl}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogItem-pagination-link BlogItem-pagination-link--next">
+        <div class="BlogItem-pagination-link-content">
+          <div class="BlogItem-pagination-link-label">Next</div>
+          <h4 class="BlogItem-pagination-link-title">{title}</h4>
+          <div class="BlogItem-pagination-link-meta">
+            {.section categories}<!--
+
+            Categories
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--categories">{.repeated section @}{@}{.alternates with}, {.end}</span>{.end}<!--
+
+            Author
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--author">{author.displayName}</span><!--
+
+            Date
+
+            --><time class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B %d, %Y}</time>{.section location}{.section addressTitle}<!--
+
+            Location
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--location">{@}</span>{.end}{.end}{.section tags}<!-- 
+
+            Tags 
+
+            --><span class="BlogItem-pagination-link-meta-item BlogItem-pagination-link-meta-item--tags">{.repeated section @}{@}{.alternates with}, {.end}</span>{.end}
+          </div>
+        </div><!--
+        --><svg class="BlogItem-pagination-link-icon" viewBox="0 0 23 48">
+          <g class="svg-icon">
+            <polyline fill="none" stroke-miterlimit="10" points="1.5,45.7 20.4,23.5 1.5,1.3 "/>
+          </g>
+        </svg>
+      </a>
+    {.end}
+
+  </nav>
+{.end}
+
+

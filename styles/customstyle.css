@@ -1,0 +1,31 @@
+h1.twenty_badge_bg {
+    font-size: 40px;
+    padding-top: 40px;
+    font-style: normal;
+    padding-right: 155px;
+    margin-top: -100px;
+}
+span.netwrix_logo {
+    color: #f00;
+    font-size: 1.15em;
+}
+span.yellow_plus {
+    color: #ff0;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+.netwrix_top_animation lottie-player {
+    width: 500px !important;
+    height: 500px !important;
+    float: right;
+}
+h1.twenty_badge_bg span:last-child {
+    font-size: 0.85em;
+}
+  section#netwrixtopanimation {
+    margin-top: -170px;
+    background: transparent;
+}
+section#netwrixtopanimation .Index-page-content {
+    padding: 0;
+}

@@ -1,0 +1,93 @@
+{.if categoryFilter || tagFilter || authorFilter}
+  <header class="BlogList-filter">
+
+    Posts {.section categoryFilter}in {@|safe}{.end}{.section tagFilter}tagged {@|safe}{.end}{.if authorFilter}by {author.displayName}{.end}
+    
+  </header>
+{.end}
+
+<section class="BlogList{.equal? collection.features.systemBlogCollection.postDisplay "full"} BlogList--posts-full{.or} BlogList--posts-excerpt{.end}{.if items.0}{.or} BlogList--empty{.end} sqs-blog-list clear" data-columns="1">
+  {.repeated section items}
+    <article id="post-{id}" class="BlogList-item {@|item-classes}{.if categories.0} has-categories{.end}{.if tags.0} has-tags{.end}{.if location.addressTitle || location.addressLine1 || location.addressLine2 || location.addressCountry} has-location{.end}{.comments?} has-comments{.end}" data-item-id="{id}">
+
+      {.main-image?}
+        <div class="BlogList-item-image">
+          <a href="{fullUrl}" class="BlogList-item-image-link">
+            <img {@|image-meta} data-load="false" />
+          </a>
+        </div>
+      {.end}
+
+      
+      <a href="{.passthrough?}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogList-item-title"{.passthrough?} target="_blank{.end}" data-content-field="title">{title}</a>
+
+      {.equal? collection.features.systemBlogCollection.postDisplay "full"}
+        <div class="BlogList-item-body">{body}</div>
+      {.or}
+        {.section excerpt}
+          <div class="BlogList-item-excerpt">
+            {excerpt}
+            <a href="{fullUrl}" class="BlogList-item-readmore"></a>
+          </div>
+        {.end}
+      {.end}
+      
+      <div class="Blog-meta BlogList-item-meta">
+        {.section categories}<!--
+
+        Categories
+
+        --><span class="Blog-meta-item Blog-meta-item--categories">{.repeated section @}<a href="{collection.fullUrl}?category={@|url-encode}" class="Blog-meta-item-category">{@}</a>{.alternates with}, {.end}</span>{.end}<!--
+
+        Author
+
+        --><a href="{collection.fullUrl}?author={author.id}" class="Blog-meta-item Blog-meta-item--author">{author.displayName}</a><!--
+
+        Date
+
+        --><time class="Blog-meta-item Blog-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B %d, %Y}</time>{.section location}{.section addressTitle}<!--
+
+        Location
+
+        --><span class="Blog-meta-item Blog-meta-item--location"><a href="http://maps.google.com?q={addressLine1} {addressLine2} {addressCountry}" target="_blank">{@}</a></span>{.end}{.end}{.section tags}<!--
+
+        Tags
+
+        --><span class="Blog-meta-item Blog-meta-item--tags">{.repeated section @}<a href="{collection.fullUrl}?tag={@|url-encode}" class="Blog-meta-item-tag">{@}</a>{.alternates with}, {.end}</span>{.end}{.comments?}<!--
+
+        Comments
+
+        --><span class="Blog-meta-item Blog-meta-item--comments">{.if websiteSettings.disqusShortname}{@|comment-link}{.or}{.section publicCommentCount}<a href="{fullUrl}#comments-{id}">{@} Comment{@|pluralize}</a>{.or}<a href="{fullUrl}#comments-{id}">Comment</a>{.end}{.end}</span>{.end}
+      </div>
+
+      {postItemInjectCode}
+
+    </article>
+
+  {.or}
+    No blog posts yet.
+  {.end}
+</section>
+  
+{.section pagination}
+  <nav class="BlogList-pagination">
+
+    {.if prevPage}
+      <a href="{prevPageUrl}" class="BlogList-pagination-link">
+        <svg class="BlogList-pagination-link-icon" viewBox="0 0 9 16">
+          <g class="svg-icon">
+            <polyline fill="none" stroke-miterlimit="10" points="7.3,14.7 2.5,8 7.3,1.2 "/>
+          </g>
+        </svg><span class="BlogList-pagination-link-label">Newer</span>
+      </a>{.end}{.if nextPage}<a href="{nextPageUrl}" class="BlogList-pagination-link">
+        <span class="BlogList-pagination-link-label">Older</span><svg class="BlogList-pagination-link-icon" viewBox="0 0 9 16">
+          <g class="svg-icon">
+            <polyline fill="none" stroke-miterlimit="10" points="1.6,1.2 6.5,7.9 1.6,14.7 "/>
+          </g>
+        </svg>
+      </a>
+    {.end}
+
+  </nav>
+{.end}
+

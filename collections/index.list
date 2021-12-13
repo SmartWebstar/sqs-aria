@@ -1,0 +1,631 @@
+{.section collection}
+
+
+  {.repeated section collections}
+
+  {.equal? typeName "associates"}
+  <section id={urlId} class="associates-wrapper" style="background-image: url('{mainImage.assetUrl}');">
+    <div class="Index-page-content">
+    <div class="associates-wrapper">
+      <h2>Associates</h2>
+      <div class="associates-list">
+        {.repeated section items}
+        <div class="associates-item">
+          <img src="{assetUrl}" alt="">
+        </div>
+        {.end}
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+  {.or}
+  {.equal? typeName "discussions"}
+  
+  <section id={urlId} class="discussions-wrapper" >
+    <div class="Index-page-content">
+      <div class="wrap-inner-discussion">
+        <div class="discussion-list">
+          {.repeated section items}
+          <a class="disc-item" href="{fullUrl}">
+            <h3 class="disc-title">{title}</h3>
+            <div class="disc-excerpt">{excerpt}</div>
+          </a>
+          {.end}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {.or}
+
+  {.equal? typeName "blog"}
+  {.repeated section items}
+  <div class="blog-pop mfp-hide" id="blog-excerpt-{id}">
+    <div class="res-body">
+      {excerpt|safe}
+    </div>
+  </div>
+  {.end}
+      
+      <squarespace:block-field id="blog-{id}" columns="12" label="Content" class="title-section Index-page-content"/>
+      <section class="Index-page-content BlogList{.equal? collection.features.systemBlogCollection.postDisplay "full"} BlogList--posts-full{.or} BlogList--posts-excerpt{.end}{.if items.0}{.or} BlogList--empty{.end} sqs-blog-list clear" data-columns="4">
+        <div class="blog-wrapper-inner">
+        {.repeated section items}
+
+        <article id="post-{id}" class="BlogList-item {@|item-classes}{.if categories.0} has-categories{.end}{.if tags.0} has-tags{.end}{.if location.addressTitle || location.addressLine1 || location.addressLine2 || location.addressCountry} has-location{.end}{.comments?} has-comments{.end}" data-item-id="{id}">
+          <div class="blog-body">
+            
+         
+          {.main-image?}
+          <div class="BlogList-item-image">
+            <a href="{fullUrl}" class="BlogList-item-image-link-custom">
+              <img {@|image-meta} data-load="true" />
+            </a>
+          </div>
+          {.end}
+
+
+          <a href="{.passthrough?}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogList-item-title"{.passthrough?} target="_blank{.end}" data-content-field="title">{title}</a>
+
+          {.equal? collection.features.systemBlogCollection.postDisplay "full"}
+          <div class="BlogList-item-body">{body}</div>
+          {.or}
+          {.section excerpt}
+
+
+          <div class="BlogList-item-excerpt more">
+            {excerpt|safe|truncate 200}
+            <a href="#blog-excerpt-{id}" class="open-popup-link">Read More</a>
+            <!-- <a href="{fullUrl}" class="BlogList-item-readmore"></a> -->
+          </div>
+          {.end}
+          {.end}
+
+          <div class="Blog-meta BlogList-item-meta">
+            {.section categories}<!--
+
+            Categories
+
+            --><span class="Blog-meta-item Blog-meta-item--categories">{.repeated section @}<a href="{collection.fullUrl}?category={@|url-encode}" class="Blog-meta-item-category">{@}</a>{.alternates with}, {.end}</span>{.end}<!--
+
+            Author
+
+            --><a href="{collection.fullUrl}?author={author.id}" class="Blog-meta-item Blog-meta-item--author">{author.displayName}</a><!--
+
+            Date
+
+            --><time class="Blog-meta-item Blog-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B %d, %Y}</time>{.section location}{.section addressTitle}<!--
+
+            Location
+
+            --><span class="Blog-meta-item Blog-meta-item--location"><a href="http://maps.google.com?q={addressLine1} {addressLine2} {addressCountry}" target="_blank">{@}</a></span>{.end}{.end}{.section tags}<!--
+
+            Tags
+
+            --><span class="Blog-meta-item Blog-meta-item--tags">{.repeated section @}<a href="{collection.fullUrl}?tag={@|url-encode}" class="Blog-meta-item-tag">{@}</a>{.alternates with}, {.end}</span>{.end}{.comments?}<!--
+
+            Comments
+
+          --><span class="Blog-meta-item Blog-meta-item--comments">{.if websiteSettings.disqusShortname}{@|comment-link}{.or}{.section publicCommentCount}<a href="{fullUrl}#comments-{id}">{@} Comment{@|pluralize}</a>{.or}<a href="{fullUrl}#comments-{id}">Comment</a>{.end}{.end}</span>{.end}
+        </div>
+ </div>
+
+        {.if customContent.blogSource}
+        <div class="source blog-source">
+          {.if customContent.blogSourceLink}
+            <a href="{customContent.blogSourceLink}" target="_blank">{customContent.blogSource}</a>
+          {.or}
+            {customContent.blogSource}
+          {.end}
+        </div>
+        {.end}
+
+
+      </article>
+
+
+      {.end}
+  </div>
+
+    </section>
+
+  {.or}
+  {.equal? typeName "resources"}
+     <!--  {.repeated section items}
+      <div class="view-resource mfp-hide" id="resources-{id}">
+        <div class="view-resource-inner">
+          {body}
+        </div>
+      </div>
+      {.end} -->
+
+
+      
+      {.repeated section items}
+      <div class="resource-pop mfp-hide" id="resources-excerpt-{id}">
+        <div class="res-body">
+          {excerpt|safe}
+        </div>
+      </div>
+        {.end}
+
+      <squarespace:block-field id="resource-{id}" columns="12" label="Content" class="title-section Index-page-content"/>
+      <section class="resources-list Index-page-content BlogList{.equal? collection.features.systemBlogCollection.postDisplay "full"} BlogList--posts-full{.or} BlogList--posts-excerpt{.end}{.if items.0}{.or} BlogList--empty{.end} sqs-blog-list clear">
+        <div class="blog-wrapper-inner">
+          
+        
+        {.repeated section items}
+
+        <article id="post-{id}" class="BlogList-item {@|item-classes}{.if categories.0} has-categories{.end}{.if tags.0} has-tags{.end}{.if location.addressTitle || location.addressLine1 || location.addressLine2 || location.addressCountry} has-location{.end}{.comments?} has-comments{.end} resource-item" data-item-id="{id}">
+        <div class="top-aligment">
+          
+        
+          {.main-image?}
+          <div class="BlogList-item-image">
+           <!--  <a href="{.passthrough?}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogList-item-image-link-custom resource-img">
+              <img {@|image-meta} data-load="true" />
+            </a> -->
+            <div class="BlogList-item-image-link-custom resource-img">
+               <img {@|image-meta} data-load="true" />
+            </div>
+          </div>
+          {.end}
+          <time class="Blog-meta-item Blog-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B %d, %Y}</time>
+
+        <!--   <a href="{.passthrough?}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogList-item-title"{.passthrough?} target="_blank{.end}" data-content-field="title">{title}</a> -->
+
+          <div class="BlogList-item-title">
+            {title}
+          </div>
+
+          {.equal? collection.features.systemBlogCollection.postDisplay "full"}
+          <div class="BlogList-item-body">{body}</div>
+          {.or}
+          {.section excerpt}
+          <div class="BlogList-item-excerpt more">
+            {excerpt|safe|truncate 200}
+            <a href="#resources-excerpt-{id}" class="open-popup-link">Read More</a>
+            <!-- <a href="{.passthrough?}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogList-item-readmore"></a> -->
+          </div>
+          {.end}
+          {.end}
+
+          <div class="Blog-meta BlogList-item-meta">
+            {.section categories}<!--
+
+            Categories
+
+            --><span class="Blog-meta-item Blog-meta-item--categories">{.repeated section @}<a href="{collection.fullUrl}?category={@|url-encode}" class="Blog-meta-item-category">{@}</a>{.alternates with}, {.end}</span>{.end}<!--
+
+            Author
+
+            --><a href="{collection.fullUrl}?author={author.id}" class="Blog-meta-item Blog-meta-item--author">{author.displayName}</a><!--
+
+            Date
+
+            --><!-- <time class="Blog-meta-item Blog-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B %d, %Y}</time> -->{.section location}{.section addressTitle}<!--
+
+            Location
+
+            --><span class="Blog-meta-item Blog-meta-item--location"><a href="http://maps.google.com?q={addressLine1} {addressLine2} {addressCountry}" target="_blank">{@}</a></span>{.end}{.end}{.section tags}<!--
+
+            Tags
+
+            --><span class="Blog-meta-item Blog-meta-item--tags">{.repeated section @}<a href="{collection.fullUrl}?tag={@|url-encode}" class="Blog-meta-item-tag">{@}</a>{.alternates with}, {.end}</span>{.end}{.comments?}<!--
+
+            Comments
+
+          --><span class="Blog-meta-item Blog-meta-item--comments">{.if websiteSettings.disqusShortname}{@|comment-link}{.or}{.section publicCommentCount}<a href="{fullUrl}#comments-{id}">{@} Comment{@|pluralize}</a>{.or}<a href="{fullUrl}#comments-{id}">Comment</a>{.end}{.end}</span>{.end}
+        </div>
+
+
+
+        </div>
+        <div class="bottom-item-alligment">
+          <div class="resource-buttons">
+            <div class="resource-buttons-inner">
+              <div class="pop-up-button">
+                <!-- <a href="#resources-{id}" class="view-resource-button">View</a> -->
+
+                <a class="word view-resource-button" href="//docs.google.com/gview?url=https://ariaconsulting.net{customContent.docLink}&amp;embedded=true">View</a>
+              </div>
+              <div class="download-button">
+                <squarespace:block-field id="download-{id}" columns="12" label="Content" class="download-button-field"/>
+              </div>
+            </div>
+          </div>
+          {.if customContent.resourceSource}
+          <div class="source">
+            {.if customContent.resourceSourceLink}
+            <a href="{customContent.resourceSourceLink}" target="_blank">{customContent.resourceSource}</a>
+            {.or}
+            {customContent.resourceSource}
+            {.end}
+          </div>
+          {.end}
+
+          
+        </div>
+
+
+      </article>
+
+      {.end}
+
+      </div>
+    </section>
+
+
+  {.or} 
+
+  {.equal? typeName "table"}
+
+  <section id="{urlId}" class="table-wraper">
+    <div class="table-inner Index-page-content">
+      <h3>{title}</h3>
+      <div class="table-wrapper-inner">
+        {.repeated section items}
+          <div class="table-row">
+            <div class="table-left"><p>{title}</p></div>
+            <div class="table-right">{body}</div>
+          </div>
+        {.end}
+      </div>
+    </div>
+  </section>
+
+  {.or}
+
+  {.equal? typeName "clients"}
+
+  <section id="{urlId}" class="clients-wrap" style="background-image: url({mainImage.assetUrl});">
+      <h2 class="section-title" style="color: #fff; padding-bottom: 0px;">{title}</h2>
+      <div class="clients-wrapper-inner">
+        
+        {.repeated section items}
+          <div class="client-item client-{id}" data-aos="new-animation" >
+            <div class="client-item-inner" >
+              <img src="{assetUrl}" alt="" >
+            </div>
+          </div>
+        {.end}
+         </div>
+
+  </section>
+
+  {.or}
+  {.equal? typeName "tabs"}
+  <section id="{urlId}" class="wrap-tabs">
+    <div class="tabs-top">
+      <div class="image-tabs">
+        {.repeated section items}
+        <div class="tab-image" data-img-tab="tab-{id}">
+          <img src="{assetUrl}" alt="" id>
+        </div>
+        {.end}
+        <div class="tabs-title-inner">
+          {.repeated section items}
+          <div class="tabs-title" id="tab-{id}"><h2>{title}</h2></div>
+          {.end}
+        </div>
+      </div>
+
+    </div>
+    <div class="tabs-body Index-page-content">
+      {.repeated section items}
+      <div class="tabs-body-item" data-tab="tab-{id}">
+        {body}
+      </div>
+      {.end}
+    </div>
+  </section>
+  {.or}
+  {.equal? typeName "more"}
+  <section id="{urlId}" class="accords">
+    <div class="Index-page-content">
+      <squarespace:block-field id="accords-{id}" columns="12" label="Content"/>
+      <div class="accrords-list">
+        {.repeated section items}
+        <div class="accords-item">
+          <div class="accords-title"><h3>{title}</h3></div>
+          <div class="accords-body">
+            <div class="accords-body-inner">
+              {body}
+              <div class="wrap-accords-logos">
+                {.section customContent}
+                {.repeated section accrodsLogosImg}
+                <div class="items-logos">
+                  <div class="items-logos-inner">
+                    <img src="{assetUrl}" alt="">
+                  </div>
+                </div>
+                {.end}
+                {.end}
+              </div>
+            </div>
+          </div>
+        </div>
+        {.end}
+      </div>
+    </div>
+  </section>
+
+  {.or}
+  {.equal? typeName "feedback"}
+  <section id="{urlId}" class="feedback-wrapper">
+    <div class="Index-page-content">
+        <div class="wrap-pops">
+         {.repeated section items}
+         <div class="feedback-item mfp-hide" id="testimonial-{id}">
+          <div class="feedback-body">
+            {body|safe}
+          </div>
+          <div class="feedback-info" >
+            <div class="img-fdb">
+              {.section customContent.personImage}
+                <img src="{customContent.personImage.assetUrl}" alt="">
+              {.or}
+                <div class="no-avatar" style="background-image: url('https://static1.squarespace.com/static/5cb42c078dfc8c32928f1683/t/5cbb47b54e17b6672ce36567/1555777461985/2703063-512.png');"></div>
+              {.end}
+            </div>
+            <div class="info-fdb">
+              <h4 class="name-fdb">{title}</h4>
+              <p>{customContent.smallImageTitle}</p>
+            </div>
+            <div class="img-fdb company-img" style="background-image: url({customContent.smallImage.assetUrl});" >
+              <!-- <img src="{customContent.smallImage.assetUrl}" class="company-img" alt=""> -->
+           </div>
+
+          </div>
+        </div>
+      
+        {.end}
+      </div>
+      <div class="section-title">{description}</div>
+      <div class="feedback-wrapper-inner owl-carousel">
+        {.repeated section items}
+        <div class="feedback-item">
+          <div class="feedback-body more">
+            {body|safe|truncate 350}
+            <a href="#testimonial-{id}" class="open-popup-link">Read More</a>
+          </div>
+          <div class="feedback-info">
+            <div class="img-fdb">
+             {.section customContent.personImage}
+              <img src="{customContent.personImage.assetUrl}" alt="">
+             {.or}
+              <div class="no-avatar" style="background-image: url('https://static1.squarespace.com/static/5cb42c078dfc8c32928f1683/t/5cbb47b54e17b6672ce36567/1555777461985/2703063-512.png');"></div>
+             {.end}
+            </div>
+            <div class="info-fdb">
+              <h4 class="name-fdb">{title}</h4>
+              <p>{customContent.smallImageTitle}</p>
+            </div>
+            <div class="img-fdb company-img" style="background-image: url({customContent.smallImage.assetUrl});">
+           </div>
+           
+          </div>
+        </div>
+        {.end}
+      </div>
+    </div>
+  </section>
+
+  {.or}
+  {.equal? typeName "round"}
+  <section id="{urlId}" class="round-anim-wrapper">
+    <div class="round-animation-wrapper-inner">
+      <div class="animation-wrapper">
+        
+        <div class="parent-animation-external">
+          {.repeated section items}
+            {.section customContent}
+              {.equal?:customType:"externalCirc"}
+                <div class="logo-item-external" id="logo-{id}"><div class="logo-item-inner" style="background-image: url({assetUrl});"></div></div>
+              {.end}
+            {.end}
+          {.end}
+        </div>
+
+        <div class="parent-animation-middle"></div>
+        <div class="wrap-internal">
+          <div class="parent-animation-internal">
+            {.repeated section items}
+              {.section customContent}
+                {.equal?:customType:"internalCirc"}
+                  <div class="logo-item-internal" id="logo-{id}"><div class="logo-item-inner" style="background-image: url({assetUrl});"></div></div>
+                {.end}
+              {.end}
+            {.end}
+          </div>
+        </div>
+
+      </div>
+      <div class="content-area">
+        <squarespace:block-field id="block-content-{id}" columns="12" label="Edit Content"/>
+      </div>
+    </div>
+  </section>
+  {.or}
+  {.equal? typeName "cubes"}
+  <section id="{urlId}" class="wrap-cubes">
+    <div class="Index-page-content">
+      <div class="section-title">{description}</div>
+      <div class="wrap-cubes-inner">
+        {.repeated section items}
+          <div class="cube-item">
+           <div class="scene">
+            <div class="object">
+              <div class="face f1">{title}</div>
+              <div class="face f2"></div>
+              <div class="face f3"></div>
+              <div class="face f4"></div>
+              <div class="face f5"></div>
+              <div class="face f6"></div>
+            </div>
+          </div>
+          </div>
+        {.end}
+      </div>
+    </div>
+  </section>
+  {.or}
+
+    {.equal? typeName "cards"}
+
+    <section id="{urlId}" class="cards-wrapper">
+      <div class="Index-page-content">
+        <div class="cards-wrapper-inner">
+          {.repeated section items}
+          <div class="card-item">
+            <div class="card-image">
+              
+              <a href="{sourceUrl}">
+                <div class="card-title">{excerpt}</div>
+                <img src="{assetUrl}" alt="">
+              </a>
+            </div>
+            <div class="card-description">
+              {body}
+            </div>
+          </div>
+          {.end}
+        </div>
+      </div>
+    </section>
+
+    {.or}
+
+    {.equal? typeName "gallery"}
+
+      <section id="{urlId}" class="Index-gallery" data-controller="IndexGallery" data-collection-id="{id}">
+        <div class="Index-gallery-wrapper">
+          <button class="Index-gallery-control Index-gallery-control--left">
+            <svg class="Icon Icon--caretLarge--left" viewBox="0 0 23 48">
+              <use xlink:href="/assets/ui-icons.svg#caret-left-icon--large"></use>
+            </svg>
+            <svg class="Icon Icon--caretSmall--left" viewBox="0 0 9 16">
+              <use xlink:href="/assets/ui-icons.svg#caret-left-icon--small"></use>
+            </svg>
+          </button>
+          <button class="Index-gallery-control Index-gallery-control--right">
+            <svg class="Icon Icon--caretLarge--right" viewBox="0 0 23 48">
+              <use xlink:href="/assets/ui-icons.svg#caret-right-icon--large"></use>
+            </svg>
+            <svg class="Icon Icon--caretSmall--left" viewBox="0 0 9 16">
+              <use xlink:href="/assets/ui-icons.svg#caret-right-icon--small"></use>
+            </svg>
+          </button>
+          {.section items}
+            <div class="Index-gallery-indicators">
+              {.repeated section @}<button class="Index-gallery-indicators-item"><span class="Index-gallery-indicators-item-inner"></span></button>{.end}
+            </div>
+          {.end}
+          {.repeated section items}
+
+            <article class="Index-gallery-item"{.video?} data-controller="IndexGalleryVideo"{.end}>
+
+              <div class="Index-gallery-item-inner">
+
+                {.if title || body}
+                  <div class="Index-gallery-item-content{.if title && body} Index-gallery-item-content--has-title-and-body{.end}">
+                    {.section title}<h2 class="Index-gallery-item-content-heading">{@}</h2>{.end}
+                    {.section body}<div class="Index-gallery-item-content-body">{@}</div>{.end}
+                    {.section clickthroughUrl}<a href="{@}" class="Index-gallery-item-content-link"></a>{.end}
+                    {.video?}<a href="#" class="Index-gallery-item-content-link"></a>{.end}
+                  </div>
+                {.end}
+
+                {.section clickthroughUrl}
+                  <a href="{@}" class="Index-gallery-item-image">
+                {.or}
+                  {.video?}
+                    <a href="#" class="Index-gallery-item-image">
+                  {.or}
+                    <figure class="Index-gallery-item-image">
+                  {.end}
+                {.end}
+                  <img {@|image-meta} data-load="false" />
+                {.section clickthroughUrl}
+                  </a>
+                {.or}
+                  {.video?}
+                    </a>
+                  {.or}
+                    </figure>
+                  {.end}
+                {.end}
+
+                {.video?}
+                  {@|video}
+                {.end}
+
+              </div>
+
+            </article>
+
+          {.end}
+        </div>
+      </section>
+
+    {.or}
+
+      <section id="{urlId}" class="Index-page{.section mainImage} Index-page--has-image{.or}{.background-source-video?} Index-page--has-image{.end}{.end}" {.section mainImage} data-parallax-original-element{.or}{.background-source-video?} data-parallax-original-element{.end}{.end} data-collection-id="{id}" data-parallax-id="{id}" data-edit-main-image="Background">
+        {.equal? @index 1}
+          <div class="Index-page-scroll-indicator hidden" data-controller="ScrollIndicator">
+            <div class="Index-page-scroll-indicator-text">{localizedStrings.scroll}</div>
+            <svg class="Index-page-scroll-indicator-arrow Icon Icon--caretLarge--down" viewBox="0 0 48 23">
+              <use xlink:href="/assets/ui-icons.svg#caret-down-large-icon"></use>
+            </svg>
+            <div class="Index-page-scroll-indicator-line"></div>
+          </div>
+        {.end}
+        <div class="Index-page-content {.section mainImage} sqs-alternate-block-style-container{.or}{.background-source-video?} sqs-alternate-block-style-container{.end}{.end}">
+          {mainContent}
+        </div>
+        {.background-source-video?}
+          <figure class="Index-page-image" data-parallax-image-wrapper>
+            {@|apply background-media.block}
+          </figure>
+        {.or}
+          {.section mainImage}
+            <figure class="Index-page-image" data-parallax-image-wrapper>
+              {@|apply background-media.block}
+            </figure>
+          {.end}
+        {.end}
+      </section>
+
+    {.end}
+
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+  {.end}
+
+  {.section collections}
+    <nav class="Index-nav">
+      <div class="Index-nav-inner">
+        {.repeated section @}
+          <a href="#{urlId}" class="Index-nav-item{.equal? @index 1} active{.end}">
+            <div class="Index-nav-indicator"></div>
+            <div class="Index-nav-text"><span>{title}</span></div>
+          </a>
+        {.end}
+      </div>
+    </nav>
+  {.end}
+
+
+{.end}
